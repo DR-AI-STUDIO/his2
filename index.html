@@ -1,512 +1,160 @@
 <!DOCTYPE html>
-<html lang="ko"><head>
+<html lang="ko">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>사극분장 마스터클래스 : Part 2 실전</title>
+    <title>사극분장 마스터클래스 : Part 2 실전 (Final)</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700;900&display=swap');
 
-        /* --- 디자인 시스템 (Part 1과 동일 유지) --- */
+        /* --- 디자인 시스템 --- */
         :root {
             --primary: #5D4037;
             --secondary: #D84315;
             --accent: #FFECB3;
-            --text-primary: #3E2723;
+            --text-primary: #3E2723; 
             --text-secondary: #5D4037;
             --modern-blue: #2980b9;
         }
 
         /* --- 기본 구조 --- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body,
-        html {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body, html {
+            width: 100%; height: 100%; overflow: hidden;
             background: #2b2b2b;
             font-family: 'Inter', 'Noto Serif KR', serif;
         }
-
-        .ppt-wrapper {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
+        .ppt-wrapper { width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
         .ppt-container {
-            width: 1280px;
-            height: 720px;
-            position: relative;
-            transform-origin: center;
-            background-color: #fdfbfb;
-            overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            width: 1280px; height: 720px; position: relative; transform-origin: center;
+            background-color: #fdfbfb; overflow: hidden; border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
         }
 
         /* 컨트롤 버튼 */
-        .control-buttons {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 2000;
-            display: flex;
-            gap: 8px;
-        }
-
+        .control-buttons { position: absolute; top: 20px; right: 20px; z-index: 2000; display: flex; gap: 8px; }
         .control-buttons button {
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
+            background: rgba(0, 0, 0, 0.7); color: white; border: none; padding: 10px 15px;
+            border-radius: 8px; cursor: pointer; font-weight: 600;
             transition: all 0.2s;
         }
-
-        .control-buttons button:hover {
-            background: var(--secondary);
-        }
+        .control-buttons button:hover { background: var(--secondary); }
 
         /* 슬라이드 공통 */
-        .slideshow-view {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
+        .slideshow-view { width: 100%; height: 100%; position: relative; }
         .slide {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            transition: opacity 0.6s ease-in-out;
-            pointer-events: none;
+            width: 100%; height: 100%; position: absolute; top: 0; left: 0; opacity: 0;
+            transition: opacity 0.6s ease-in-out; pointer-events: none; 
             background: #FAFAFA;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: flex; justify-content: center; align-items: center;
             z-index: 1;
         }
-
-        .slide.current {
-            opacity: 1;
-            pointer-events: auto;
-            z-index: 10;
-        }
-
-        .slide-content {
-            width: 100%;
-            height: 100%;
-            padding: 50px 70px;
-            display: flex;
-            flex-direction: column;
-            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+        .slide.current { opacity: 1; pointer-events: auto; z-index: 10; }
+        
+        .slide-content { 
+            width: 100%; height: 100%; padding: 50px 70px; 
+            display: flex; flex-direction: column; 
+            background-image: linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.02) 1px, transparent 1px);
             background-size: 40px 40px;
         }
-
+        
         /* 헤더 스타일 */
-        .header {
-            margin-bottom: 20px;
-            border-bottom: 3px solid var(--primary);
-            padding-bottom: 15px;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
+        .header { margin-bottom: 20px; border-bottom: 3px solid var(--primary); padding-bottom: 15px; width: 100%; display: flex; justify-content: space-between; align-items: flex-end; }
+        .header h1 { font-size: 2.6em; color: var(--text-primary); margin: 0; font-weight: 800; font-family: 'Noto Serif KR', serif; }
+        .header span { font-size: 1em; color: var(--text-secondary); font-weight: 600; opacity: 0.7; font-family: 'Inter', sans-serif; }
 
-        .header h1 {
-            font-size: 2.6em;
-            color: var(--text-primary);
-            margin: 0;
-            font-weight: 800;
-            font-family: 'Noto Serif KR', serif;
-        }
-
-        .header span {
-            font-size: 1em;
-            color: var(--text-secondary);
-            font-weight: 600;
-            opacity: 0.7;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .body {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            position: relative;
-        }
+        .body { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; position: relative; }
 
         /* 타이틀 슬라이드 */
-        .title-slide {
-            background: linear-gradient(135deg, #3E2723 0%, #5D4037 100%);
-            color: white;
-        }
-
-        .title-slide .slide-content {
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: none;
-            border: 20px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .title-slide h1 {
-            font-size: 4em;
-            color: #FFECB3;
-            margin-bottom: 20px;
-            font-weight: 900;
-        }
-
-        .title-slide h2 {
-            font-size: 1.8em;
-            color: #D7CCC8;
-            font-weight: 400;
-            margin-bottom: 50px;
-        }
-
-        .curriculum-box {
-            text-align: left;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 30px;
-            border-radius: 10px;
-            border-left: 5px solid var(--secondary);
-        }
-
-        .curriculum-box p {
-            margin: 10px 0;
-            font-size: 1.2em;
-            color: #EFEBE9;
-        }
+        .title-slide { background: linear-gradient(135deg, #3E2723 0%, #5D4037 100%); color: white; }
+        .title-slide .slide-content { justify-content: center; align-items: center; text-align: center; background: none; border: 20px solid rgba(255,255,255,0.1); }
+        .title-slide h1 { font-size: 4em; color: #FFECB3; margin-bottom: 20px; font-weight: 900; }
+        .title-slide h2 { font-size: 1.8em; color: #D7CCC8; font-weight: 400; margin-bottom: 50px; }
+        .curriculum-box { text-align: left; background: rgba(0,0,0,0.3); padding: 30px; border-radius: 10px; border-left: 5px solid var(--secondary); }
+        .curriculum-box p { margin: 10px 0; font-size: 1.2em; color: #EFEBE9; }
 
         /* 레이아웃 컴포넌트 */
-        .two-column {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .col {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .box {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            border-top: 4px solid #ccc;
-        }
-
-        .box h3 {
-            font-size: 1.4em;
-            margin-bottom: 15px;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .box p,
-        .box li {
-            font-size: 1.1em;
-            line-height: 1.6;
-            color: #555;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .box ul {
-            padding-left: 20px;
-        }
+        .two-column { display: flex; width: 100%; height: 100%; gap: 40px; align-items: center; }
+        .col { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        
+        .box { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 4px solid #ccc; }
+        .box h3 { font-size: 1.4em; margin-bottom: 15px; color: var(--text-primary); display: flex; align-items: center; gap: 10px; }
+        .box p, .box li { font-size: 1.1em; line-height: 1.6; color: #555; font-family: 'Inter', sans-serif; }
+        .box ul { padding-left: 20px; }
 
         /* 비디오 컨테이너 */
-        .video-wrapper {
-            width: 100%;
-            height: 450px;
-            background: #000;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .video-wrapper iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
+        .video-wrapper { width: 100%; height: 450px; background: #000; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .video-wrapper iframe { width: 100%; height: 100%; border: none; }
+        
         /* 팁 박스 */
-        .pro-tip {
-            background: #E3F2FD;
-            border-left: 5px solid #2196F3;
-            padding: 15px 20px;
-            margin-top: 20px;
-            width: 100%;
-            font-size: 1em;
-            color: #0D47A1;
-        }
+        .pro-tip { background: #E3F2FD; border-left: 5px solid #2196F3; padding: 15px 20px; margin-top: 20px; width: 100%; font-size: 1em; color: #0D47A1; }
 
         /* 스타일링된 리스트 */
-        .process-list {
-            list-style: none;
-            padding: 0;
-        }
+        .process-list { list-style: none; padding: 0; }
+        .process-list li { margin-bottom: 15px; font-size: 1.1em; display: flex; align-items: flex-start; }
+        .process-list li::before { content: "✔"; color: var(--secondary); margin-right: 10px; font-weight: bold; }
 
-        .process-list li {
-            margin-bottom: 15px;
-            font-size: 1.1em;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .process-list li::before {
-            content: "✔";
-            color: var(--secondary);
-            margin-right: 10px;
-            font-weight: bold;
-        }
-
-        /* --- 편집 모드 스타일 --- */
-        .edit-toolbar {
-            position: absolute;
-            top: 70px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 50px;
-            padding: 10px 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(10px);
-            display: none;
-            gap: 10px;
-            align-items: center;
-            z-index: 2000;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .edit-mode .edit-toolbar {
-            display: flex;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translate(-50%, -20px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translate(-50%, 0);
-                opacity: 1;
-            }
-        }
-
-        .toolbar-group {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-            padding-right: 10px;
-            border-right: 1px solid #ddd;
-        }
-
-        .toolbar-group:last-child {
-            border-right: none;
-            padding-right: 0;
-        }
-
-        .toolbar-btn {
-            padding: 8px 12px;
-            border: none;
-            background: transparent;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            color: var(--text-primary);
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .toolbar-btn:hover {
-            background: rgba(0, 0, 0, 0.05);
-            color: var(--secondary);
-        }
-
-        .toolbar-btn.active {
-            background: var(--secondary);
-            color: white;
-        }
-
-        .size-selector {
-            padding: 5px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-
-        /* 이미지/텍스트 편집 핸들 */
-        .image-wrapper {
-            position: absolute;
-            display: inline-block;
-            cursor: move;
-        }
-
-        .image-wrapper img {
-            width: 100%;
-            height: 100%;
-            display: block;
-            pointer-events: none;
-        }
-
-        .resize-handle {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background: white;
-            border: 2px solid var(--secondary);
-            border-radius: 50%;
-            z-index: 100;
-            display: none;
-        }
-
-        .edit-mode .image-wrapper:hover .resize-handle,
-        .edit-mode .image-wrapper.selected .resize-handle {
-            display: block;
-        }
-
-        .resize-handle.nw {
-            top: -6px;
-            left: -6px;
-            cursor: nw-resize;
-        }
-
-        .resize-handle.ne {
-            top: -6px;
-            right: -6px;
-            cursor: ne-resize;
-        }
-
-        .resize-handle.sw {
-            bottom: -6px;
-            left: -6px;
-            cursor: sw-resize;
-        }
-
-        .resize-handle.se {
-            bottom: -6px;
-            right: -6px;
-            cursor: se-resize;
-        }
-
-        .textbox {
-            position: absolute;
-            min-width: 50px;
-            min-height: 20px;
-            cursor: text;
-            padding: 5px;
-            border: 1px dashed transparent;
-        }
-
-        .edit-mode .textbox {
-            border-color: rgba(0, 0, 0, 0.2);
-            cursor: move;
-        }
-
-        .edit-mode .textbox:focus-within {
-            border-color: var(--secondary);
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-        .edit-mode [contenteditable="true"]:hover {
-            outline: 2px solid rgba(93, 64, 55, 0.3);
-            border-radius: 4px;
-        }
-
-        .edit-mode [contenteditable="true"]:focus {
-            outline: 2px solid var(--secondary);
-            border-radius: 4px;
-            background: rgba(255, 255, 255, 0.8);
-        }
     </style>
 </head>
-
-<body class="">
+<body>
     <div class="ppt-wrapper" id="pptWrapper">
-        <div class="ppt-container" id="pptContainer" style="transform: scale(1.08062);">
+        <div class="ppt-container" id="pptContainer">
             <div class="control-buttons">
-                <button id="editModeBtn" onclick="toggleEditMode()" style="">✎ 편집</button>
-                <button id="downloadBtn" onclick="downloadHTML()" style="display: none;">💾 저장</button>
                 <button onclick="prevSlide()">❮ 이전</button>
                 <button onclick="nextSlide()">다음 ❯</button>
             </div>
 
-            <div class="edit-toolbar" id="editToolbar" style="display: none;">
-                <div class="toolbar-group">
-                    <button class="toolbar-btn" onclick="execCmd('bold')" title="굵게"><b>B</b></button>
-                    <button class="toolbar-btn" onclick="execCmd('italic')" title="기울임"><i>I</i></button>
-                    <button class="toolbar-btn" onclick="execCmd('underline')" title="밑줄"><u>U</u></button>
-                </div>
-                <div class="toolbar-group">
-                    <select onchange="execCmd('fontSize', this.value)" class="size-selector">
-                        <option value="3">보통</option>
-                        <option value="5">크게</option>
-                        <option value="7">아주 크게</option>
-                    </select>
-                    <input type="color" onchange="execCmd('foreColor', this.value)" title="글자색" value="#3E2723">
-                </div>
-                <div class="toolbar-group">
-                    <button class="toolbar-btn" onclick="insertImage()" title="이미지 추가">📷</button>
-                    <button class="toolbar-btn" onclick="insertTextbox()" title="텍스트 상자 추가">T</button>
-                </div>
-            </div>
-
             <div class="slideshow-view">
-
-                <div class="slide title-slide current" style="opacity: 1;">
+                
+                <div class="slide title-slide current">
                     <div class="slide-content">
                         <h1>사극분장 마스터클래스</h1>
                         <h2>Part 2. 실전 테크닉: 제작과 부착</h2>
                         <div class="curriculum-box">
-                            <p>Chapter 1. 수염 치기 (Hackling)</p>
+                            <p>Chapter 1. 재료 가공 (자르기 & 치기)</p>
                             <p>Chapter 2. 망수염 제작 (Ventilating)</p>
                             <p>Chapter 3. 수염 붙이기 (Application)</p>
+                            <p>Chapter 4. 스타일링 (Blow Dry)</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="slide" style="opacity: 0;">
+                <div class="slide">
                     <div class="slide-content">
-                        <div class="header">
-                            <h1>1. 수염 치기 (Hackling)</h1><span>재료 가공의 완성</span>
+                        <div class="header"><h1>1. 수염 자르기 (Cutting)</h1><span>찐 수염 가공의 첫 단계</span></div>
+                        <div class="body">
+                            <div class="two-column">
+                                <div class="col" style="flex: 1.5;">
+                                    <div class="video-wrapper">
+                                        <iframe src="https://www.youtube.com/embed/LsJDKo_y4B4" title="수염 자르기" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="box">
+                                        <h3>✂️ 길이별 분류</h3>
+                                        <p>쪄낸 수염을 용도에 맞춰 미리 재단합니다.</p>
+                                        <ul class="process-list" style="margin-top: 20px;">
+                                            <li><strong>Long (20cm+):</strong> 관우 수염, 산신령</li>
+                                            <li><strong>Medium (10~15cm):</strong> 일반 턱수염</li>
+                                            <li><strong>Short (5cm↓):</strong> 콧수염, 구렛나루</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="slide-content">
+                        <div class="header"><h1>2. 수염 치기 (Hackling)</h1><span>재료 가공의 완성</span></div>
                         <div class="body">
                             <div class="two-column">
                                 <div class="col">
                                     <div class="box" style="border-top-color: var(--secondary);">
-                                        <h3>✂️ 수염을 친다는 것?</h3>
-                                        <p>땋고 쪄낸(Part 1) 수염 뭉치를 풀어, <strong>붓끝처럼 얇고 자연스럽게(Tapered)</strong> 만드는 과정입니다.
-                                        </p>
+                                        <h3>🧹 Hackling Process</h3>
+                                        <p>자른 수염 뭉치를 풀어, <strong>붓끝처럼 얇고 자연스럽게(Tapered)</strong> 만드는 과정입니다.</p>
                                         <br>
                                         <ul class="process-list">
                                             <li><strong>빗질(Combing):</strong> 엉킨 컬을 풀고 공기층 형성.</li>
@@ -525,28 +173,23 @@
                     </div>
                 </div>
 
-                <div class="slide" style="opacity: 0;">
+                <div class="slide">
                     <div class="slide-content">
-                        <div class="header">
-                            <h1>실습: 수염 치기 과정</h1><span>Hackling Technique</span>
-                        </div>
+                        <div class="header"><h1>실습: 수염 치기 과정</h1><span>Hackling Technique</span></div>
                         <div class="body">
                             <div class="video-wrapper">
-                                <iframe src="https://www.youtube.com/embed/9ZDpECSi4d8" title="수염치기" allowfullscreen=""></iframe>
+                                <iframe src="https://www.youtube.com/embed/9ZDpECSi4d8" title="수염치기" allowfullscreen></iframe>
                             </div>
                             <div class="pro-tip">
-                                💡 <strong>핵심:</strong> 한 손으로 수염을 꽉 잡고, 다른 손으로 긴 털을 쏙쏙 뽑아서 다시 합치는 과정을 수없이 반복해야 합니다. 이
-                                과정이 없으면 수염 끝이 뭉툭해 보입니다.
+                                💡 <strong>핵심:</strong> 한 손으로 수염을 꽉 잡고, 다른 손으로 긴 털을 쏙쏙 뽑아서 다시 합치는 과정을 수없이 반복해야 합니다.
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="slide" style="opacity: 0;">
+                <div class="slide">
                     <div class="slide-content">
-                        <div class="header">
-                            <h1>2. 망수염 (Ventilating) 이란?</h1><span>고급 분장의 필수 요소</span>
-                        </div>
+                        <div class="header"><h1>3. 망수염 (Ventilating) 이란?</h1><span>고급 분장의 필수 요소</span></div>
                         <div class="body">
                             <div class="two-column">
                                 <div class="col">
@@ -567,7 +210,7 @@
                                     <div class="box">
                                         <h3>🛠 필요 도구</h3>
                                         <ul class="process-list">
-                                            <li><strong>수염 바늘 (Ventilating Needle):</strong> 낚시바늘처럼 미세한 고리가 있음.</li>
+                                            <li><strong>수염 바늘 (Ventilating Needle)</strong></li>
                                             <li><strong>망 (Lace):</strong> 내구성과 투명도가 중요.</li>
                                             <li><strong>홀더:</strong> 바늘을 끼우는 대.</li>
                                         </ul>
@@ -578,14 +221,12 @@
                     </div>
                 </div>
 
-                <div class="slide" style="opacity: 0;">
+                <div class="slide">
                     <div class="slide-content">
-                        <div class="header">
-                            <h1>실습: 망수염 만들기</h1><span>Knotting Technique</span>
-                        </div>
+                        <div class="header"><h1>실습: 망수염 만들기</h1><span>Knotting Technique</span></div>
                         <div class="body">
                             <div class="video-wrapper">
-                                <iframe src="https://www.youtube.com/embed/6ylG-WQfhS8" title="망수염 만들기" allowfullscreen=""></iframe>
+                                <iframe src="https://www.youtube.com/embed/6ylG-WQfhS8" title="망수염 만들기" allowfullscreen></iframe>
                             </div>
                             <div class="pro-tip" style="background: #FFF3E0; border-color: #FF9800; color: #E65100;">
                                 ⚠️ <strong>주의:</strong> 매듭(Knot)이 너무 크면 피부 위에서 검은 점처럼 보입니다. 1~2가닥씩 섬세하게 심어야 리얼합니다.
@@ -594,22 +235,20 @@
                     </div>
                 </div>
 
-                <div class="slide" style="opacity: 0;">
+                <div class="slide">
                     <div class="slide-content">
-                        <div class="header">
-                            <h1>3. 수염 붙이기 (Application)</h1><span>현장 실전 테크닉</span>
-                        </div>
+                        <div class="header"><h1>4. 수염 붙이기 (Application)</h1><span>현장 실전 테크닉</span></div>
                         <div class="body">
                             <div class="two-column">
                                 <div class="col">
                                     <h3>🧴 접착제 사용법</h3>
                                     <div class="box">
                                         <p><strong>스프릿 검 (Spirit Gum):</strong></p>
-                                        <p>바른 후 손가락으로 톡톡 두드려(Tapping) 실처럼 끈적임이 생길 때 붙여야 접착력이 극대화됩니다.</p>
+                                        <p>바른 후 손가락으로 톡톡 두드려(Tapping) 끈적임이 생길 때 붙여야 합니다.</p>
                                     </div>
                                     <div class="box" style="margin-top: 20px;">
                                         <p><strong>프로세이드 (Pros-Aide):</strong></p>
-                                        <p>흰색 액체가 투명해질 때까지 말린 후 붙입니다. (Contect type)</p>
+                                        <p>흰색 액체가 투명해질 때까지 말린 후 붙입니다. (Contact type)</p>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -626,39 +265,35 @@
                     </div>
                 </div>
 
-                <div class="slide" style="opacity: 0;">
+                <div class="slide">
                     <div class="slide-content">
-                        <div class="header">
-                            <h1>실습: 수염 붙이기 (기본)</h1><span>Direct Application</span>
-                        </div>
+                        <div class="header"><h1>실습: 직접 붙이기 (Laying Hair)</h1><span>Loose Hair Application</span></div>
                         <div class="body">
                             <div class="video-wrapper">
-                                <iframe src="https://www.youtube.com/embed/DdlYKjJBUKQ" title="수염 붙이기" allowfullscreen=""></iframe>
+                                <iframe src="https://www.youtube.com/embed/DdlYKjJBUKQ" title="수염 붙이기" allowfullscreen></iframe>
                             </div>
                             <p style="margin-top: 20px; color: #aaa;">턱수염의 풍성함과 자연스러운 그라데이션을 확인하세요.</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="slide" style="opacity: 0;">
+                <div class="slide">
                     <div class="slide-content">
-                        <div class="header">
-                            <h1>실습: 붙이기 팁 &amp; 디테일</h1><span>Quick Tips</span>
-                        </div>
+                        <div class="header"><h1>실습: 망수염 붙이기</h1><span>Lace Mustache Application</span></div>
                         <div class="body">
                             <div class="two-column">
-                                <div class="col" style="flex: 0.8;">
-                                    <div class="video-wrapper" style="width: 100%; height: 500px;"> <iframe src="https://www.youtube.com/embed/oOpE7ge1mLQ" title="수염 붙이기 쇼츠" allowfullscreen=""></iframe>
+                                <div class="col" style="flex: 1.5;">
+                                     <div class="video-wrapper">
+                                        <iframe src="https://www.youtube.com/embed/SMFa8rw8LFI" title="콧수염 망수염 붙이기" allowfullscreen></iframe>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="box" style="border-top-color: var(--secondary);">
-                                        <h3>🔥 스타일링 마무리</h3>
-                                        <p>수염을 다 붙인 후에는?</p>
-                                        <ul class="process-list">
-                                            <li><strong>커팅(Cutting):</strong> 가위로 전체적인 실루엣 다듬기.</li>
-                                            <li><strong>드라이:</strong>수염용 드라이기로 수염 방향 정리.</li>
-                                            <li><strong>스프레이:</strong> 고정력 강화.</li>
+                                        <h3>💡 망수염 부착 팁</h3>
+                                        <p>망(Lace)은 피부에 밀착되는 것이 생명입니다.</p>
+                                        <ul class="process-list" style="margin-top: 15px;">
+                                            <li><strong>무광 처리:</strong> 접착제의 광택을 없애기 위해 파우더나 퍼프 사용.</li>
+                                            <li><strong>망 숨기기:</strong> 망의 경계선이 보이지 않도록 가장자리를 꼼꼼히 눌러줍니다.</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -667,20 +302,45 @@
                     </div>
                 </div>
 
-                <div class="slide" style="opacity: 0;">
+                <div class="slide">
                     <div class="slide-content">
-                        <div class="header">
-                            <h1>Part 2 과정 요약</h1>
+                        <div class="header"><h1>5. 스타일링 (Styling)</h1><span>캐릭터의 완성</span></div>
+                        <div class="body">
+                            <div class="two-column">
+                                <div class="col">
+                                    <div class="box" style="border-top-color: #2980b9;">
+                                        <h3>🌬 드라이 (Blow Dry)</h3>
+                                        <p>고데기(Iron) 대신 드라이어의 열풍을 사용합니다.</p>
+                                        <br>
+                                        <ul class="process-list">
+                                            <li><strong>볼륨감:</strong> 롤빗과 드라이어로 뿌리 볼륨을 살립니다.</li>
+                                            <li><strong>방향성:</strong> 바람의 방향으로 수염결을 정돈합니다.</li>
+                                            <li><strong>안전:</strong> 인조사는 고열에 녹을 수 있으므로 드라이어가 더 안전하고 자연스럽습니다.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="box">
+                                        <h3>✂️ 마무리 커팅 (Trimming)</h3>
+                                        <p>부착 후 얼굴형에 맞춰 불필요한 잔털을 정리하고 전체적인 실루엣을 완성합니다.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="slide-content">
+                        <div class="header"><h1>Part 2 과정 요약</h1></div>
                         <div class="body">
                             <ul style="font-size: 1.5em; line-height: 2; list-style-type: none; text-align: center;">
-                                <li>✅ <strong>수염 치기:</strong> 빗질 → 섞기 → 층내기 (붓처럼 만들기)</li>
-                                <li>✅ <strong>망수염:</strong> 망(Lace)에 바늘로 심어 내구성/재사용성 확보</li>
-                                <li>✅ <strong>붙이기:</strong> 접착제 Tapping과 모공 방향에 맞춘 부착</li>
-                                <li>✅ <strong>마무리:</strong> 커팅과 고데기로 캐릭터 완성</li>
+                                <li>✅ <strong>가공:</strong> 자르기(길이) → 치기(질감)</li>
+                                <li>✅ <strong>제작:</strong> 망수염(Lace) 심기 실습</li>
+                                <li>✅ <strong>부착:</strong> 직접 붙이기 vs 망수염 붙이기</li>
+                                <li>✅ <strong>마무리:</strong> 드라이(Dry)를 이용한 자연스러운 스타일링</li>
                             </ul>
-                            <p style="margin-top: 50px; color: var(--accent); font-size: 1.2em;">수고하셨습니다! 이제 당신은 사극 분장
-                                마스터입니다.</p>
+                            <p style="margin-top: 50px; color: var(--accent); font-size: 1.2em;">수고하셨습니다! 최고의 사극 분장사가 되기를 응원합니다.</p>
                         </div>
                     </div>
                 </div>
@@ -696,7 +356,7 @@
         function showSlide(index) {
             slides.forEach((slide, i) => {
                 slide.classList.remove('current');
-                slide.style.opacity = 0; // 명시적 초기화
+                slide.style.opacity = 0;
                 if (i === index) {
                     slide.classList.add('current');
                     slide.style.opacity = 1;
@@ -717,9 +377,8 @@
                 showSlide(currentSlide);
             }
         }
-
+        
         document.addEventListener('keydown', (e) => {
-            if (isEditMode && (document.activeElement.isContentEditable || document.activeElement.tagName === 'INPUT')) return;
             if (e.key === 'ArrowRight') nextSlide();
             if (e.key === 'ArrowLeft') prevSlide();
         });
@@ -735,225 +394,6 @@
             scalePpt();
             showSlide(0);
         });
-
-        // --- Editing Features ---
-        let isEditMode = false;
-
-        function toggleEditMode() {
-            isEditMode = !isEditMode;
-            document.body.classList.toggle('edit-mode', isEditMode);
-
-            const btn = document.getElementById('editModeBtn');
-            const downloadBtn = document.getElementById('downloadBtn');
-            const editToolbar = document.getElementById('editToolbar');
-
-            if (isEditMode) {
-                btn.innerHTML = '❌ 종료';
-                btn.style.background = '#d32f2f'; // Red for stop
-                downloadBtn.style.display = 'block';
-                editToolbar.style.display = 'flex';
-                setEditable(true);
-            } else {
-                btn.innerHTML = '✎ 편집';
-                btn.style.background = 'rgba(0, 0, 0, 0.7)';
-                downloadBtn.style.display = 'none';
-                editToolbar.style.display = 'none';
-                setEditable(false);
-            }
-        }
-
-        function setEditable(enable) {
-            const selectors = '.slide-content h1, .slide-content h2, .slide-content h3, .slide-content p, .slide-content li, .slide-content span, .slide-content div:not(.two-column):not(.col):not(.slide-content):not(.image-wrapper)';
-            document.querySelectorAll(selectors).forEach(el => {
-                el.contentEditable = enable;
-            });
-
-            // Re-bind or unbind drag events if needed (we check isEditMode inside handlers, so mostly OK)
-            // But we should ensure existing images/textboxes are draggable
-            if (enable) {
-                document.querySelectorAll('.image-wrapper').forEach(makeDraggableAndResizable);
-                document.querySelectorAll('.textbox').forEach(makeTextboxDraggable);
-            }
-        }
-
-        function execCmd(command, value = null) {
-            document.execCommand(command, false, value);
-            // Focus back to element? Browsers usually handle this if selection is preserved.
-        }
-
-        function getScale() {
-            const container = document.getElementById('pptContainer');
-            if (container.style.transform && container.style.transform.includes('scale')) {
-                const match = container.style.transform.match(/scale\(([^)]+)\)/);
-                if (match && match[1]) return parseFloat(match[1]);
-            }
-            return 1;
-        }
-
-        function insertImage() {
-            const url = prompt('이미지 URL을 입력하세요 (예: https://example.com/image.jpg):');
-            if (!url) return;
-
-            const targetContainer = slides[currentSlide];
-
-            const wrapper = document.createElement('div');
-            wrapper.className = 'image-wrapper';
-            wrapper.style.left = '50%';
-            wrapper.style.top = '50%';
-            wrapper.style.transform = 'translate(-50%, -50%)'; // Center initially
-            wrapper.style.width = '300px';
-            wrapper.style.left = '300px';
-            wrapper.style.top = '200px';
-            wrapper.style.transform = 'none';
-
-            const img = document.createElement('img');
-            img.src = url;
-            img.setAttribute('draggable', 'false'); // Disable native drag
-            img.style.pointerEvents = 'none'; // Ensure clicks pass to wrapper
-            wrapper.appendChild(img);
-
-            ['nw', 'ne', 'sw', 'se'].forEach(pos => {
-                const handle = document.createElement('div');
-                handle.className = `resize-handle ${pos}`;
-                handle.dataset.pos = pos;
-                wrapper.appendChild(handle);
-            });
-
-            targetContainer.appendChild(wrapper);
-            makeDraggableAndResizable(wrapper);
-        }
-
-        function insertTextbox() {
-            const targetContainer = slides[currentSlide];
-
-            const box = document.createElement('div');
-            box.className = 'textbox';
-            box.style.left = '100px';
-            box.style.top = '100px';
-
-            const p = document.createElement('p');
-            p.contentEditable = 'true';
-            p.innerText = '텍스트 입력';
-            box.appendChild(p);
-
-            targetContainer.appendChild(box);
-            makeTextboxDraggable(box);
-
-            p.focus();
-        }
-
-        function makeDraggableAndResizable(el) {
-            el.onmousedown = function (e) {
-                if (!isEditMode) return;
-
-                // Get scale dynamically
-                const scale = getScale() || 1;
-
-                // Resize
-                if (e.target.classList.contains('resize-handle')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const handle = e.target;
-                    const pos = handle.dataset.pos; // nw, ne, sw, se
-
-                    const startX = e.clientX;
-                    const startY = e.clientY;
-                    const startWidth = el.offsetWidth;
-                    const startHeight = el.offsetHeight;
-                    const startLeft = el.offsetLeft;
-                    const startTop = el.offsetTop;
-
-                    const moveHandler = function (e) {
-                        const dx = (e.clientX - startX) / scale;
-                        const dy = (e.clientY - startY) / scale;
-
-                        if (pos === 'se') {
-                            el.style.width = startWidth + dx + 'px';
-                            el.style.height = startHeight + dy + 'px';
-                        } else if (pos === 'sw') {
-                            el.style.width = startWidth - dx + 'px';
-                            el.style.height = startHeight + dy + 'px';
-                            el.style.left = startLeft + dx + 'px';
-                        } else if (pos === 'ne') {
-                            el.style.width = startWidth + dx + 'px';
-                            el.style.height = startHeight - dy + 'px';
-                            el.style.top = startTop + dy + 'px';
-                        } else if (pos === 'nw') {
-                            el.style.width = startWidth - dx + 'px';
-                            el.style.height = startHeight - dy + 'px';
-                            el.style.left = startLeft + dx + 'px';
-                            el.style.top = startTop + dy + 'px';
-                        }
-                    };
-                    const upHandler = function () {
-                        document.removeEventListener('mousemove', moveHandler);
-                        document.removeEventListener('mouseup', upHandler);
-                    };
-                    document.addEventListener('mousemove', moveHandler);
-                    document.addEventListener('mouseup', upHandler);
-                    return;
-                }
-
-                // Drag (Textboxes or Image Wrappers)
-                if (e.target.isContentEditable) return;
-
-                e.preventDefault();
-                const startX = e.clientX;
-                const startY = e.clientY;
-                const startLeft = el.offsetLeft;
-                const startTop = el.offsetTop;
-
-                const moveHandler = function (e) {
-                    const dx = (e.clientX - startX) / scale;
-                    const dy = (e.clientY - startY) / scale;
-                    el.style.left = startLeft + dx + 'px';
-                    el.style.top = startTop + dy + 'px';
-                };
-
-                const upHandler = function () {
-                    document.removeEventListener('mousemove', moveHandler);
-                    document.removeEventListener('mouseup', upHandler);
-                };
-
-                document.addEventListener('mousemove', moveHandler);
-                document.addEventListener('mouseup', upHandler);
-            };
-        }
-
-        function makeTextboxDraggable(el) {
-            // Reuse same logic, just bind it
-            makeDraggableAndResizable(el);
-        }
-
-        function downloadHTML() {
-            // Clone document
-            const clone = document.documentElement.cloneNode(true);
-
-            // Clean up
-            clone.querySelector('.edit-toolbar').style.display = 'none';
-            const btn = clone.querySelector('#editModeBtn');
-            btn.innerHTML = '✎ 편집';
-            btn.style.background = '';
-
-            clone.querySelector('#downloadBtn').style.display = 'none';
-            clone.querySelector('body').classList.remove('edit-mode');
-
-            // Remove attributes
-            const editables = clone.querySelectorAll('[contenteditable]');
-            editables.forEach(el => el.removeAttribute('contenteditable'));
-
-            // Note: We keep resize handles and wrappers structure, but CSS hides handles when not in edit mode.
-            // So just removing edit-mode class is enough to hide UI.
-
-            const htmlContent = clone.outerHTML;
-            const blob = new Blob(['<!DOCTYPE html>\n', htmlContent], { type: 'text/html' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'presentation_modified.html';
-            a.click();
-            URL.revokeObjectURL(a.href);
-        }
     </script>
-
-
-</body></html>
+</body>
+</html>
