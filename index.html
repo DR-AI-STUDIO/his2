@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
-
-<head>
+<html lang="ko"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>사극분장 마스터클래스 : Part 2 실전</title>
@@ -453,17 +451,17 @@
     </style>
 </head>
 
-<body>
+<body class="">
     <div class="ppt-wrapper" id="pptWrapper">
-        <div class="ppt-container" id="pptContainer">
+        <div class="ppt-container" id="pptContainer" style="transform: scale(1.08062);">
             <div class="control-buttons">
-                <button id="editModeBtn" onclick="toggleEditMode()">✎ 편집</button>
-                <button id="downloadBtn" onclick="downloadHTML()" style="display:none;">💾 저장</button>
+                <button id="editModeBtn" onclick="toggleEditMode()" style="">✎ 편집</button>
+                <button id="downloadBtn" onclick="downloadHTML()" style="display: none;">💾 저장</button>
                 <button onclick="prevSlide()">❮ 이전</button>
                 <button onclick="nextSlide()">다음 ❯</button>
             </div>
 
-            <div class="edit-toolbar" id="editToolbar">
+            <div class="edit-toolbar" id="editToolbar" style="display: none;">
                 <div class="toolbar-group">
                     <button class="toolbar-btn" onclick="execCmd('bold')" title="굵게"><b>B</b></button>
                     <button class="toolbar-btn" onclick="execCmd('italic')" title="기울임"><i>I</i></button>
@@ -485,7 +483,7 @@
 
             <div class="slideshow-view">
 
-                <div class="slide title-slide current">
+                <div class="slide title-slide current" style="opacity: 1;">
                     <div class="slide-content">
                         <h1>사극분장 마스터클래스</h1>
                         <h2>Part 2. 실전 테크닉: 제작과 부착</h2>
@@ -497,7 +495,7 @@
                     </div>
                 </div>
 
-                <div class="slide">
+                <div class="slide" style="opacity: 0;">
                     <div class="slide-content">
                         <div class="header">
                             <h1>1. 수염 치기 (Hackling)</h1><span>재료 가공의 완성</span>
@@ -518,8 +516,7 @@
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <div
-                                        style="background:#eee; height: 300px; display:flex; justify-content:center; align-items:center; border-radius:10px; color:#aaa; text-align: center;">
+                                    <div style="background:#eee; height: 300px; display:flex; justify-content:center; align-items:center; border-radius:10px; color:#aaa; text-align: center;">
                                         [개념도]<br>직각 커팅 (X) vs 층낸 수염 (O)<br>||||| vs ♒♒
                                     </div>
                                 </div>
@@ -528,15 +525,14 @@
                     </div>
                 </div>
 
-                <div class="slide">
+                <div class="slide" style="opacity: 0;">
                     <div class="slide-content">
                         <div class="header">
                             <h1>실습: 수염 치기 과정</h1><span>Hackling Technique</span>
                         </div>
                         <div class="body">
                             <div class="video-wrapper">
-                                <iframe src="https://www.youtube.com/embed/9ZDpECSi4d8" title="수염치기"
-                                    allowfullscreen></iframe>
+                                <iframe src="https://www.youtube.com/embed/9ZDpECSi4d8" title="수염치기" allowfullscreen=""></iframe>
                             </div>
                             <div class="pro-tip">
                                 💡 <strong>핵심:</strong> 한 손으로 수염을 꽉 잡고, 다른 손으로 긴 털을 쏙쏙 뽑아서 다시 합치는 과정을 수없이 반복해야 합니다. 이
@@ -546,7 +542,7 @@
                     </div>
                 </div>
 
-                <div class="slide">
+                <div class="slide" style="opacity: 0;">
                     <div class="slide-content">
                         <div class="header">
                             <h1>2. 망수염 (Ventilating) 이란?</h1><span>고급 분장의 필수 요소</span>
@@ -582,15 +578,14 @@
                     </div>
                 </div>
 
-                <div class="slide">
+                <div class="slide" style="opacity: 0;">
                     <div class="slide-content">
                         <div class="header">
                             <h1>실습: 망수염 만들기</h1><span>Knotting Technique</span>
                         </div>
                         <div class="body">
                             <div class="video-wrapper">
-                                <iframe src="https://www.youtube.com/embed/6ylG-WQfhS8" title="망수염 만들기"
-                                    allowfullscreen></iframe>
+                                <iframe src="https://www.youtube.com/embed/6ylG-WQfhS8" title="망수염 만들기" allowfullscreen=""></iframe>
                             </div>
                             <div class="pro-tip" style="background: #FFF3E0; border-color: #FF9800; color: #E65100;">
                                 ⚠️ <strong>주의:</strong> 매듭(Knot)이 너무 크면 피부 위에서 검은 점처럼 보입니다. 1~2가닥씩 섬세하게 심어야 리얼합니다.
@@ -599,7 +594,7 @@
                     </div>
                 </div>
 
-                <div class="slide">
+                <div class="slide" style="opacity: 0;">
                     <div class="slide-content">
                         <div class="header">
                             <h1>3. 수염 붙이기 (Application)</h1><span>현장 실전 테크닉</span>
@@ -619,8 +614,7 @@
                                 </div>
                                 <div class="col">
                                     <h3>📍 부착 순서 (직접 붙이기)</h3>
-                                    <ol
-                                        style="font-size: 1.1em; line-height: 1.8; background: white; padding: 20px; border-radius: 8px;">
+                                    <ol style="font-size: 1.1em; line-height: 1.8; background: white; padding: 20px; border-radius: 8px;">
                                         <li><strong>턱 밑 (Under Chin):</strong> 안쪽부터 바깥쪽으로.</li>
                                         <li><strong>턱 중앙 (Chin):</strong> 중심을 잡고 좌우 대칭 확인.</li>
                                         <li><strong>구렛나루 (Sideburns):</strong> 얼굴 옆 라인 연결.</li>
@@ -632,32 +626,29 @@
                     </div>
                 </div>
 
-                <div class="slide">
+                <div class="slide" style="opacity: 0;">
                     <div class="slide-content">
                         <div class="header">
                             <h1>실습: 수염 붙이기 (기본)</h1><span>Direct Application</span>
                         </div>
                         <div class="body">
                             <div class="video-wrapper">
-                                <iframe src="https://www.youtube.com/embed/DdlYKjJBUKQ" title="수염 붙이기"
-                                    allowfullscreen></iframe>
+                                <iframe src="https://www.youtube.com/embed/DdlYKjJBUKQ" title="수염 붙이기" allowfullscreen=""></iframe>
                             </div>
                             <p style="margin-top: 20px; color: #aaa;">턱수염의 풍성함과 자연스러운 그라데이션을 확인하세요.</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="slide">
+                <div class="slide" style="opacity: 0;">
                     <div class="slide-content">
                         <div class="header">
-                            <h1>실습: 붙이기 팁 & 디테일</h1><span>Quick Tips</span>
+                            <h1>실습: 붙이기 팁 &amp; 디테일</h1><span>Quick Tips</span>
                         </div>
                         <div class="body">
                             <div class="two-column">
                                 <div class="col" style="flex: 0.8;">
-                                    <div class="video-wrapper" style="width: 100%; height: 500px;"> <iframe
-                                            src="https://www.youtube.com/embed/oOpE7ge1mLQ" title="수염 붙이기 쇼츠"
-                                            allowfullscreen></iframe>
+                                    <div class="video-wrapper" style="width: 100%; height: 500px;"> <iframe src="https://www.youtube.com/embed/oOpE7ge1mLQ" title="수염 붙이기 쇼츠" allowfullscreen=""></iframe>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -666,7 +657,7 @@
                                         <p>수염을 다 붙인 후에는?</p>
                                         <ul class="process-list">
                                             <li><strong>커팅(Cutting):</strong> 가위로 전체적인 실루엣 다듬기.</li>
-                                            <li><strong>고데기(Curling):</strong> 미니 고데기로 수염 방향 정리.</li>
+                                            <li><strong>드라이:</strong>수염용 드라이기로 수염 방향 정리.</li>
                                             <li><strong>스프레이:</strong> 고정력 강화.</li>
                                         </ul>
                                     </div>
@@ -676,7 +667,7 @@
                     </div>
                 </div>
 
-                <div class="slide">
+                <div class="slide" style="opacity: 0;">
                     <div class="slide-content">
                         <div class="header">
                             <h1>Part 2 과정 요약</h1>
@@ -963,6 +954,6 @@
             URL.revokeObjectURL(a.href);
         }
     </script>
-</body>
 
-</html>
+
+</body></html>
